@@ -1,0 +1,21 @@
+Package: curl
+Version: 7.65.2-1
+Depends: zlib
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 36af4ad12aa5fb9f161a11e3e698bf74087fe8ff
+Description: A library for transferring data with URLs
+
+Package: curl
+Feature: openssl
+Depends: openssl
+Architecture: x64-linux
+Multi-Arch: same
+Description: SSL support (OpenSSL)
+
+Package: curl
+Feature: ssl
+Depends: curl[openssl]
+Architecture: x64-linux
+Multi-Arch: same
+Description: Default SSL backend

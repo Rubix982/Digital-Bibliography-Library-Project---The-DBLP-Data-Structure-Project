@@ -1,0 +1,6 @@
+Package: nlohmann-json
+Version: 3.7.0
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 918f2bcb2271f6f096ce101a7a4d81aaa2d5c0ca
+Description: JSON for Modern C++

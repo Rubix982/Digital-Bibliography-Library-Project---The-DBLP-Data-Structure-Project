@@ -1,0 +1,1 @@
+Folder to contain examples files on how to implement somethings, for future reference

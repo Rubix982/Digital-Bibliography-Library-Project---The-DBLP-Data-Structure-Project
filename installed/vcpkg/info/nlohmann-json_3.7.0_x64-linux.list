@@ -1,0 +1,12 @@
+x64-linux/
+x64-linux/include/
+x64-linux/include/nlohmann/
+x64-linux/include/nlohmann/json.hpp
+x64-linux/share/
+x64-linux/share/nlohmann-json/
+x64-linux/share/nlohmann-json/copyright
+x64-linux/share/nlohmann-json/vcpkg_abi_info.txt
+x64-linux/share/nlohmann_json/
+x64-linux/share/nlohmann_json/nlohmann_jsonConfig.cmake
+x64-linux/share/nlohmann_json/nlohmann_jsonConfigVersion.cmake
+x64-linux/share/nlohmann_json/nlohmann_jsonTargets.cmake

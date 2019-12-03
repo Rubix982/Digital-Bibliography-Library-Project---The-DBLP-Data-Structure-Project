@@ -1,0 +1,7 @@
+Package: openssl
+Version: 1
+Depends: openssl-unix
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 656601b2e43819edf2870058c6833ab3e706c22c
+Description: OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols. It is also a general-purpose cryptography library.
