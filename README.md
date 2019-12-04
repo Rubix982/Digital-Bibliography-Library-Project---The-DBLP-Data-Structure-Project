@@ -5,5 +5,5 @@ A project by sophomores that includes extracting, and working with the DBLP to m
 Group members include:
     - Saif Ul Islam , 18K 0307
     - Mehran Kamal, 18K 1098
-    - Daniyal Abdul Bari, 18K
-    - Vikash Chandani, 18K
+    - Daniyal Abdul Bari, 18K 1055
+    - Vikash Chandani, 18K 0136

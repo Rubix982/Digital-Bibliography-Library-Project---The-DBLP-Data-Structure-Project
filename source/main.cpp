@@ -1,9 +1,10 @@
 #include "misc/allHeaders.hpp"
     
-
 int main(int argc, char* argv[]) {
 
-    std::cout << "\n\n" << std::setw(40) << " " << std::right << "Digital Bibliography & Library Project - The DBLP Computer Science Bibliography" << std::setw(20) << " " << "\n";
+    std::cout << "\n\n" << std::setw(40) << " " << std::right << 
+        "Digital Bibliography & Library Project - The DBLP Computer Science Bibliography" 
+        << std::setw(20) << " " << "\n";
 
     for ( unsigned option = 0 ; option != 8 ; ) {
 
@@ -13,6 +14,8 @@ int main(int argc, char* argv[]) {
 
         if ( option != 8 )
             selectOption(option);
+        else
+            break;
     }    
 
 

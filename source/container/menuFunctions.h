@@ -29,24 +29,105 @@ void selectOption(unsigned & option) {
 
     case 1:
 
+        // Look at already present data will show the contents of the
+        // folder of database, then it will ask the user what file they
+        // wish to preview
+
         break;
 
     case 2:        
+
+        // Ask for data from the server, by asking the user to input
+        // the name of the author to find for
+
+        /*
+
+            Firstly, get back the search result for authors, as if through searching
+            after that, get back the name to look up on the server.
+
+            Then, send a request to the server for the relevant author
+
+            Repeat the same process for venues and publications
+
+            Getting back a thesis, make two files for it. One would contain
+            the raw text, the other will contain a processed version of that 
+            which will contain only the relevant data.
+
+        */
+
         break;
     
     case 3:        
+
+        /*
+
+        Ask the user what kind of data they want to preview. For that, if the 
+        user chooses to look at the publications, show them the content from 
+        publications, and output the contents locally.
+
+        Here, if the user asks for a match with, or wants to look up, say,
+        a publication, apply a searching alogrithm for strings.
+
+        First take all the names as input, and search through that
+
+        */
+
+        // String Searching Algorithm
+
+        // Bag Of Words
+
         break;
     
     case 4:        
+
+        /*
+
+        Ask the user for the name of the publication, or the thesis that
+        they want to the program to process, 
+
+        Here, the user can decide and comapre among any number of thesis,
+        and find out what the most common trends are.
+
+        Let the user search through the publications list, and select from that.
+
+        For this, get back data from the publications.csv file and output the
+        contents to show to the user
+
+        */
+
         break;
 
     case 5:        
+
+        /*
+
+        Take as input the name of a publication, and search through the relevant 
+        publication through the above process.
+
+        Apply different string searching algorithms, and compare their performances
+
+        */
+
         break;
 
     case 6:        
+
+        /*
+
+        Show to the user the list of all the authors currently present and stored
+        in the database, and let the user decide if they wish to look at their thesis
+        as well
+
+        */
+
+       // Thesis, pre-processing, python
+
         break;
 
     case 7:        
+
+        // See if two topics related 
+    
         break;
 
     default:
