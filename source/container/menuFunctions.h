@@ -1,7 +1,14 @@
 #ifndef MENU_FUNCTIONS
 #define MENU_FUNCTIONS
 
-#include <iostream>
+#include <bits/stdc++.h>
+#include <dirent.h>
+#include <sys/types.h>
+#include "allHeadersForContainer.hpp"
+using namespace std;
+
+void readAndOutputFile(std::string fileName);
+bool checkForFileExistence(std::string venue_name);
 
 void displayOption(void) {
     std::cout << "1): Look at already present data\n";                          // Show friendly view of already present local database
@@ -24,21 +31,202 @@ void displayOption(void) {
     std::cout << "8): Exit\n";                                                  // Exit the menu
 }
 
-void selectOption(unsigned & option) {
-    switch (option) {
+std::tuple<std::vector<string>, std::vector<string>> list_dir(std::string path) {
+    struct dirent * entry;
+    std::vector<string> vect1, vect2;
+    DIR * dir = opendir(path.c_str());
 
-    case 1:
+    if ( dir == nullptr ) return make_tuple(vect1, vect2);
+    while ( ( entry = readdir(dir) ) != nullptr ) {
+        string buffer = entry->d_name;
+
+        if ( buffer != string(".") && buffer != string("..") && buffer != string("README.md") ) {
+            if ( buffer.substr(buffer.size() - 4, buffer.size() - 1) == string(".csv") ) vect1.push_back(buffer);
+            else vect2.push_back(buffer);
+        }
+    }
+
+    closedir(dir);
+
+    return std::make_tuple(vect1, vect2);
+}
+
+void selectOption(unsigned & option) {
+    
+    if ( option == 1 ) {
+
+        string folderLocation = "database";
+
+        int choice = 0 ;
+        
+        do {        
+        
+            auto[vect1, vect2] = list_dir(folderLocation + "/");
+
+            std::cout << "Current csv files in the " << folderLocation << " folder: \n";
+            for ( const auto & val : vect1 ) std::cout << val << "\n";
+
+            std::cout << "\nCurrent folders in the " << folderLocation << " folder: \n";
+            for ( const auto & val : vect2 ) std::cout << val << "\n";
+
+            std::cout << "1): Open and display contents of file?\n"
+                        << "2): Open new folder?\n"
+                        << "3): exit.\n";
+            
+            std::cin >> choice;
+
+            if ( choice == 1 ) {
+
+                string temp_buffer;
+                std::cout << "Enter file name - without the file extension: ";
+                std::cin >> temp_buffer;
+                temp_buffer += ".csv";
+
+                bool flag = false;
+                for ( const auto & name : vect1 ) if ( name == temp_buffer ) { flag = true; break; }
+
+                if ( flag ) {
+
+                    readAndOutputFile(temp_buffer);
+
+                } else 
+                    std::cout << "File does not exist. Please check the name properly.\n";
+
+            } else if ( choice == 2 ) {
+
+                string temp_buffer;
+                std::cout << "Enter folder name: ";
+                std::cin >> temp_buffer;
+
+                bool flag = false;
+                for ( const auto & name : vect2 ) if ( name == temp_buffer ) { flag = true; break; }
+
+                if ( flag ) {
+                    folderLocation = folderLocation + "/" + temp_buffer; 
+                } else {
+                    std::cout << "Folder does not exist. Please check the name properly.\n";
+                }
+            } 
+
+            cout << "\033[2J\033[1;1H";
+        
+        } while ( choice != 3);
+
+        std::cout << "Exiting.\n";
 
         // Look at already present data will show the contents of the
         // folder of database, then it will ask the user what file they
         // wish to preview
 
-        break;
-
-    case 2:        
+    } else if ( option == 2 ) {        
 
         // Ask for data from the server, by asking the user to input
         // the name of the author to find for
+
+        while ( true ) {
+
+            // Clearing the terminal everytime the menu is to be seen
+            cout << "\033[2J\033[1;1H";
+
+            // show the menu for the list of options
+            cout << "1): Search for authors\n"
+                <<  "2): Search for publications\n"
+                <<  "3): Search for venues\n"
+                <<  "4): Exit";
+
+            // Choose the option
+            int choose = 0 ;
+            std::cin >> choose;
+
+            if ( choose == 1 ) {            // If 1, go for authors
+
+            } else if ( choose == 2 ) {     // If 2, go for publications
+            
+            } else if ( choose == 3 ) {     // If 3, go for venues
+
+                // Get the name of the venue
+                string venue_name;
+                cout << "Enter the name of the venue: ";
+                cin >> venue_name;
+
+                // Check if the file already locally exists
+
+                if ( checkForFileExistence(venue_name) ) {
+
+                    cout << "Given venue's data \"" << venue_name 
+                        << "\" already exists in the database.\n"
+                        << "Display contents? (Y/N): ";
+                    
+                    std::string toCheck;
+                    std::cin >> toCheck;
+                    
+                    // convert string to upper case
+                    std::for_each(toCheck.begin(), toCheck.end(), [](char & c){
+	                    c = ::toupper(c);
+                    });
+
+                    if ( toCheck == "Y" || toCheck == "YES" ) {
+
+                        std::ifstream InFile("database/VenueList/" + venue_name + ".csv");
+
+                        cout << "\033[2J\033[1;1H";
+
+                        string getContentsFromFile;
+
+                        while ( std::getline(InFile, getContentsFromFile) )
+                            std::cout << getContentsFromFile;
+
+                    }
+
+                } else {
+                    string change = "";
+                    for ( int i = 0, j = 0; i < venue_name.size() ; ++i ) {
+                        if ( venue_name[i] != ' ' ) {
+
+                            change = change + venue_name.substr( j, i - j );
+                            j = i + 1;
+
+                        } else if ( venue_name[i] == ' ' ) {
+                            change = change + "%20";
+                        }
+                    }
+
+                    venue_name = change;
+
+                    auto r = cpr::Get(cpr::Url{"https://dblp.org/search/venue/api?q=" + venue_name + "&format=json&h=100#"});
+                    nlohmann::json json_obj;
+
+                    if ( r.status_code >= 400 ) {
+
+                        std::ofstream OutFile("../logs/dataFetch.log", ios::app);
+
+                        time_t _tm = time(NULL);
+
+                        struct tm * curTime = localtime( &_tm );
+                                            
+                        OutFile << asctime(curTime) << ": Error [" << r.status_code << "] while making request on line "
+                            << __LINE__ << " in file " << __FILE__ << "\n\n";
+
+                        OutFile.close();
+
+                        std::cout << "Error thrown from server, writing to dataFetch.log. Terminating.\n";
+
+                    } else {
+
+                        
+
+                    }
+                }
+
+            } else if ( choose == 4 ) {     
+
+                break;
+
+            } else {
+            
+            }
+        
+        }
 
         /*
 
@@ -55,9 +243,7 @@ void selectOption(unsigned & option) {
 
         */
 
-        break;
-    
-    case 3:        
+    } if ( option == 3 ) {        
 
         /*
 
@@ -75,10 +261,8 @@ void selectOption(unsigned & option) {
         // String Searching Algorithm
 
         // Bag Of Words
-
-        break;
     
-    case 4:        
+    } else if ( option == 4 ) {        
 
         /*
 
@@ -95,9 +279,7 @@ void selectOption(unsigned & option) {
 
         */
 
-        break;
-
-    case 5:        
+    } else if ( option == 5 ) {        
 
         /*
 
@@ -108,9 +290,7 @@ void selectOption(unsigned & option) {
 
         */
 
-        break;
-
-    case 6:        
+    } else if ( option == 6 ) {        
 
         /*
 
@@ -122,17 +302,59 @@ void selectOption(unsigned & option) {
 
        // Thesis, pre-processing, python
 
-        break;
-
-    case 7:        
+    } else if ( option == 7 ) {        
 
         // See if two topics related 
-    
-        break;
 
-    default:
-        break;
+        /*
+
+        Get back the bag of words for each othe thesis provided. Check if the frequences of the two match up
+
+        */
+
     }
+
+}
+
+void readAndOutputFile(std::string fileName) {
+
+    ifstream InFile(fileName);    
+    int comma = 0;
+    char hold;
+    string stringBuffer;
+
+    while ( std::getline(InFile, stringBuffer) ) {
+        stringstream buffer(stringBuffer);
+
+        for ( int i = 0 ; i < stringBuffer.size() ; ++i ) if ( stringBuffer[i] == ',' ) comma++;
+
+        while ( comma-- ) {
+            buffer >> stringBuffer >> hold;
+            std::cout << stringBuffer << ", ";
+        }
+        std::cout << "\n";
+    }
+
+}
+
+bool checkForFileExistence(std::string venue_name) {
+
+    // Can we apply any searching algorithm here?
+
+    venue_name += ".csv";
+    struct dirent * entry;
+    string fileAddress = "database/VenueList/";
+
+    DIR * dir = opendir(fileAddress.c_str());
+
+    if ( dir == nullptr ) return false;
+
+    while ( ( entry = readdir(dir) ) != nullptr ) {
+        string buffer = entry->d_name;
+        if ( buffer == venue_name ) return true;
+    }
+
+    return false;
 }
 
 #endif

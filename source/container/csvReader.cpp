@@ -1,5 +1,8 @@
 #include "csvReader.h"
 
+// template <class t>
+// CSVFileHandle<T>::CSVFileHandle() {}
+
 template <class T>
 CSVFileHandle<T>::CSVFileHandle(const std::string & toRead, const std::string & toWrite)
     :   toRead(toRead), toWrite(toWrite)  {

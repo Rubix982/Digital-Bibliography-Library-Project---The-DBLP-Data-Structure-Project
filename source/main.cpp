@@ -12,11 +12,10 @@ int main(int argc, char* argv[]) {
 
         std::cin >> option;
 
-        if ( option != 8 )
-            selectOption(option);
-        else
-            break;
-    }    
+        if ( option != 8 ) selectOption(option);
+        else break;
+        }    
+
 
 
 

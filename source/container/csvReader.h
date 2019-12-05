@@ -18,6 +18,7 @@ class CSVFileHandle {
 public:
 
     // Basic constructors
+    CSVFileHandle() {}
     CSVFileHandle(const std::string & toRead, const std::string & toWrite);
     CSVFileHandle(const CSVFileHandle& other);
     CSVFileHandle(CSVFileHandle&& other);
