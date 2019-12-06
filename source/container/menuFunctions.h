@@ -175,7 +175,7 @@ void selectOption(unsigned & option) {
 
                         while ( std::getline(InFile, getContentsFromFile) )
                             std::cout << getContentsFromFile;
-
+                    
                     }
 
                 } else {
@@ -191,10 +191,7 @@ void selectOption(unsigned & option) {
                         }
                     }
 
-                    venue_name = change;
-
-                    auto r = cpr::Get(cpr::Url{"https://dblp.org/search/venue/api?q=" + venue_name + "&format=json&h=100#"});
-                    nlohmann::json json_obj;
+                    auto r = cpr::Get(cpr::Url{"https://dblp.org/search/venue/api?q=" + change + "&format=json&h=100#"});
 
                     if ( r.status_code >= 400 ) {
 
@@ -213,8 +210,29 @@ void selectOption(unsigned & option) {
 
                     } else {
 
-                        
+                        std::ofstream OutFile("database/VenueList/" + venue_name + ".csv");
+                        nlohmann::json json_obj = nlohmann::json::parse(string(r.text));
 
+                        if ( json_obj["result"]["hits"]["@total"] == 1 ) {
+
+                            string venue = json_obj["result"]["hits"]["hit"][0]["info"]["venue"], 
+                                acronym = json_obj["result"]["hits"]["hit"][0]["info"]["acronym"], 
+                                type = json_obj["result"]["hits"]["hit"][0]["info"]["type"], 
+                                url = json_obj["result"]["hits"]["hit"][0]["info"]["url"];
+
+                            cout << "Venue found with the following information" 
+                                << "\nVenue: " << venue << "\nAcronym: " << acronym << "\nType: " << type
+                                << "\nURL: " << url << "\n\n";
+                        
+                            
+
+                        } else {
+
+                            
+
+                        }                         
+
+                        OutFile.close();
                     }
                 }
 
