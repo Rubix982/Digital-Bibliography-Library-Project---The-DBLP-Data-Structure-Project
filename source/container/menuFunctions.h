@@ -1,9 +1,6 @@
 #ifndef MENU_FUNCTIONS
 #define MENU_FUNCTIONS
 
-#include <bits/stdc++.h>
-#include <dirent.h>
-#include <sys/types.h>
 #include "allHeadersForContainer.hpp"
 using namespace std;
 
@@ -282,6 +279,11 @@ void selectOption(unsigned & option) {
     
     } else if ( option == 4 ) {        
 
+        // Clear the terminal
+        cout << "\033[2J\033[1;1H";
+
+        
+
         /*
 
         Ask the user for the name of the publication, or the thesis that
@@ -298,6 +300,56 @@ void selectOption(unsigned & option) {
         */
 
     } else if ( option == 5 ) {        
+
+        cout << "\033[2J\033[1;1H";
+        vector<string> fileNames;
+        struct dirent * entry;
+
+        DIR * dir = opendir("database/Thesis/");
+
+        std::cout << "Current thesis present locally: \n\n";
+
+        int i = 1;
+        while ( ( entry = readdir(dir) ) != nullptr ) {
+            string buffer = entry->d_name;
+            buffer = buffer.substr(0, buffer.size() - 4);
+            cout << i << "): " <<  "\"" << buffer << "\"\n";
+            fileNames.push_back(buffer);
+            ++i;
+        } 
+
+        string thesisName, patternToSearch;
+        std::cout << "\nEnter the thesis that you want to search a phrase in: ";
+        std::cin >> thesisName;
+
+        std::vector<string>::iterator it = find( fileNames.begin(), fileNames.end(), thesisName);       
+
+        if ( it != fileNames.end() ) {
+            std::cout << "File \"" << thesisName << "\" found. Enter the phrase to search for: ";
+            std::cin >> patternToSearch;
+            
+            // Start the timer for KMP
+            clock_t tStart = clock();
+
+            // end the timer for KMP
+            std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+            clock_t tEnd_KMP = (double) ( (clock() - tStart) / CLOCKS_PER_SEC ) ;
+            std::cout << "Using KMP, we get our results in " << tEnd_KMP << " seconds.\n";
+                
+            // Start the timer for Rabin Karp
+            tStart = clock();
+
+            // end the timer for Rabin Karp
+            std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+            clock_t tEnd_RabinKarp = (double) ( (clock() - tStart) / CLOCKS_PER_SEC );
+            std::cout << "Using Rabin Karp, we get our results in " << tEnd_RabinKarp << " seconds.\n";
+            
+            std::cout << "The two algorithms show a time difference of " 
+                        << std::abs(tEnd_KMP - tEnd_RabinKarp) <<  
+
+            
+
+        }
 
         /*
 
