@@ -1,5 +1,6 @@
 #include "menuFunctions.h"
 using namespace std;
+typedef unsigned long long ull;
 
 void displayOption(void) {
     std::cout << "1): Look at already present data\n";                          // Show friendly view of already present local database
@@ -50,54 +51,47 @@ void selectOption(unsigned & option) {
 
         int choice = 0 ;
         
+        auto[fileNames, folderNames] = list_dir(folderLocation + "/");
+        
         do {        
         
-            auto[vect1, vect2] = list_dir(folderLocation + "/");
-
             std::cout << "Current csv files in the " << folderLocation << " folder: \n";
-            for ( const auto & val : vect1 ) std::cout << val << "\n";
+            for ( const auto & fileName : fileNames ) std::cout << fileName << "\n";
 
             std::cout << "\nCurrent folders in the " << folderLocation << " folder: \n";
-            for ( const auto & val : vect2 ) std::cout << val << "\n";
+            for ( const auto & folderName : folderNames ) std::cout << folderName << "\n";
 
             std::cout << "1): Open and display contents of file?\n"
                         << "2): Open new folder?\n"
                         << "3): exit.\n";
             
+            string temp_buffer;
             std::cin >> choice;
 
             if ( choice == 1 ) {
 
-                string temp_buffer;
                 std::cout << "Enter file name - without the file extension: ";
                 std::cin >> temp_buffer;
                 temp_buffer += ".csv";
 
                 bool flag = false;
-                for ( const auto & name : vect1 ) if ( name == temp_buffer ) { flag = true; break; }
+                for ( const auto & name : fileNames ) if ( name == temp_buffer ) { flag = true; break; }
 
-                if ( flag ) {
-
-                    readAndOutputFile(temp_buffer);
-
-                } else 
-                    std::cout << "File does not exist. Please check the name properly.\n";
+                if ( flag ) readAndOutputFile(temp_buffer);
+                else std::cout << "File does not exist. Please check the name properly.\n";
 
             } else if ( choice == 2 ) {
 
-                string temp_buffer;
                 std::cout << "Enter folder name: ";
                 std::cin >> temp_buffer;
 
                 bool flag = false;
-                for ( const auto & name : vect2 ) if ( name == temp_buffer ) { flag = true; break; }
+                for ( const auto & name : folderNames ) if ( name == temp_buffer ) { flag = true; break; }
 
-                if ( flag ) {
-                    folderLocation = folderLocation + "/" + temp_buffer; 
-                } else {
-                    std::cout << "Folder does not exist. Please check the name properly.\n";
-                }
-            } 
+                if ( flag ) folderLocation += "/" + temp_buffer; 
+                else std::cout << "Folder does not exist. Please check the name properly.\n";
+
+            } else std::cout << "Invalid option! Please choose again.\n";
 
             cout << "\033[2J\033[1;1H";
         
@@ -109,7 +103,7 @@ void selectOption(unsigned & option) {
         // folder of database, then it will ask the user what file they
         // wish to preview
 
-    } else if ( option == 2 ) {        
+    } else if ( option == 2 ) {             // End option == 1, start option == 2                  
 
         // Ask for data from the server, by asking the user to input
         // the name of the author to find for
@@ -131,6 +125,111 @@ void selectOption(unsigned & option) {
 
             if ( choose == 1 ) {            // If 1, go for authors
 
+                string author_name, authorFileName;
+                cout << "Enter the name of the author to search: ";
+
+                // Label for a goto
+                getAuthorName:
+                
+                cin >> author_name;
+                authorFileName = author_name;
+
+                // Eliminate spaces
+                for ( int i = 0 ; i < authorFileName.size() ; ++i ) 
+                    if ( authorFileName[i] == ' ' ) 
+                        authorFileName = authorFileName.substr(0, i) + authorFileName.substr(i + 1, authorFileName.size() - i);
+
+                // Check if the authors name already exists in the database
+
+                if ( checkForFileExistence(authorFileName, "database/Authors" ) ) {
+
+                    cout << "Given author's data \"" << author_name
+                        << "\" already exists in the database.\n"
+                        << "Display contents? (Y/N): ";
+                    
+                    std::string toCheck;
+                    std::cin >> toCheck;
+
+                    std::for_each(toCheck.begin(), toCheck.end(), [] ( char & c) { c = ::toupper(c); });
+
+                    if ( toCheck == "Y" || toCheck == "YES" ) {
+
+                        std::ifstream Infile("database/Authors/" + authorFileName + ".csv");
+                    
+                        cout << "\033[2J\033[1:1H";
+
+                        string getContentsFromFile;
+
+                        while ( std::getline(Infile, getContentsFromFile) ) 
+                            std::cout << getContentsFromFile;
+                
+                    } 
+
+                } else {
+                    string change = "";
+
+                    for ( int i = 0, j = 0 ; i < author_name.size() ; ++i ) {
+                        if ( author_name[i] != ' ' ) {
+                            change = change + author_name.substr(j, i - j);
+                            j =  i + 1;
+                        } else if ( author_name[i] == ' ' ) {
+                            change = change + "%20";
+                        }
+                    }
+
+                    auto r = cpr::Get(cpr::Url("https://dblp.org/search/author/api?q=" + change + "&format=json&h=100#"));
+
+                    if ( r.status_code >= 400 ) {
+
+                        std::ofstream OutFile("../logs/dataFetch.log", ios::app);
+
+                        time_t _tm = time(NULL);
+
+                        struct tm * curTime = localtime( &_tm );
+                                            
+                        OutFile << asctime(curTime) << ": Error [" << r.status_code << "] while making request on line "
+                            << __LINE__ << " in file " << __FILE__ << "\n\n";
+
+                        OutFile.close();
+
+                        std::cout << "Error thrown from server, writing to dataFetch.log. Terminating.\n";
+
+                    } else {
+
+                        std::ofstream OutFile("database/Authors/" + authorFileName + ".csv");
+                        nlohmann::json json_obj = nlohmann::json::parse(string(r.text));
+
+                        if ( json_obj["result"]["hits"]["@total"] == 1 ) {
+
+                            string authorName = json_obj["result"]["hits"]["hit"][0]["info"]["author"],
+                                authorURL = json_obj["result"]["hits"]["hit"][0]["info"]["url"];
+
+                            // ! URL can be used to extract relevant data about the author
+                            // ! but current project has no HTML parser to extract the data, it can
+                            // ! only currently request for the data and not extract it - except
+                            // ! for the JSON format
+
+                            // Get the rest of the data from the url obtained by the request
+                            cout << "Author found with the following information: " 
+                                << "\nAuthor's Name: " << authorName << "\nURL: " << authorURL << "\n";
+
+                        } else {
+
+                            std::cout << "Exact match could not be found. Did you mean any of the below authors? \n\n";
+                            ull totalAuthors = json_obj["result"]["hits"]["@sent"];
+
+                            for ( ull i = 0, j = 0 ; i < totalAuthors ; ++i, ++j) {
+                                std::cout << "\"" << json_obj["result"]["hits"]["hit"][i]["info"]["author"] << "\", ";
+                                if ( ( j + 1 ) % 5 == 0 ) std::cout << "\n";
+                            }
+
+                            std::cout << "\nPlease enter any of the above names to retrieve the data for\n";
+                            goto getAuthorName;
+
+                        }
+                    }
+
+                }
             } else if ( choose == 2 ) {     // If 2, go for publications
             
             } else if ( choose == 3 ) {     // If 3, go for venues
@@ -142,7 +241,7 @@ void selectOption(unsigned & option) {
 
                 // Check if the file already locally exists
 
-                if ( checkForFileExistence(venue_name) ) {
+                if ( checkForFileExistence(venue_name, "database/VenueList/") ) {
 
                     cout << "Given venue's data \"" << venue_name 
                         << "\" already exists in the database.\n"
@@ -169,7 +268,7 @@ void selectOption(unsigned & option) {
                     
                     }
 
-                } else {
+                } else {            // End checkForFileExistence / else branch for checkForfileExistence
                     string change = "";
                     for ( int i = 0, j = 0; i < venue_name.size() ; ++i ) {
                         if ( venue_name[i] != ' ' ) {
@@ -227,7 +326,7 @@ void selectOption(unsigned & option) {
                     }
                 }
 
-            } else if ( choose == 4 ) {     
+            } else if ( choose == 4 ) {         // End data fetch for venues, start 4th option    
 
                 break;
 
@@ -252,7 +351,7 @@ void selectOption(unsigned & option) {
 
         */
 
-    } if ( option == 3 ) {        
+    } if ( option == 3 ) {                          // End option == 2, 
 
         /*
 
@@ -401,15 +500,14 @@ void readAndOutputFile(std::string fileName) {
 
 }
 
-bool checkForFileExistence(std::string venue_name) {
+bool checkForFileExistence(std::string venue_name, std::string folder_location) {
 
     // Can we apply any searching algorithm here?
 
     venue_name += ".csv";
     struct dirent * entry;
-    string fileAddress = "database/VenueList/";
 
-    DIR * dir = opendir(fileAddress.c_str());
+    DIR * dir = opendir(folder_location.c_str());
 
     if ( dir == nullptr ) return false;
 

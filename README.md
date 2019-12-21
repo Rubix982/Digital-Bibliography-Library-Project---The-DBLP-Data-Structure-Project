@@ -24,16 +24,20 @@ Group members include:
         > Worked on option 4, 5 from menuFunctions
         > New build, V2
 
-## 21th December, 2019, 11:52
+## 21st December, 2019, 11:52
     -Changelog
         > Added "source/Team\ Member\ Work/" folder for each respective member
         > Fixed dependency issues
         > New build, V3
 
-## 21th December, 2019, 12:39
+## 21st December, 2019, 12:39
     -Changelog
         > Added file handles to every folder than contains .h/.hpp files
         > Fixed build issues
         > Added '-Wno-register' to silence over register, from Python2_7.lib
         > Organized '/misc/allHeaders.cpp'
         > New buidl, V4
+
+## 21st December, 2019 5:13
+    - Changelog
+        > Finished a module in menuFunctions.h
