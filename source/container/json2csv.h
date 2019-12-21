@@ -1,3 +1,6 @@
+#ifndef JSON_2_CSV
+#define JSON_2_CSV
+
 #include "allHeadersForContainer.hpp"
 using namespace std;
 using json=nlohmann::json;
@@ -88,3 +91,5 @@ class json2csv{
 
 
 };
+
+#endif

@@ -344,8 +344,8 @@ void selectOption(unsigned & option) {
             clock_t tEnd_RabinKarp = (double) ( (clock() - tStart) / CLOCKS_PER_SEC );
             std::cout << "Using Rabin Karp, we get our results in " << tEnd_RabinKarp << " seconds.\n";
             
-            std::cout << "The two algorithms show a time difference of " 
-                        << std::abs(tEnd_KMP - tEnd_RabinKarp) <<  
+            // std::cout << "The two algorithms show a time difference of " 
+            //             << std::abs(tEnd_KMP - tEnd_RabinKarp) <<  
 
             
 
