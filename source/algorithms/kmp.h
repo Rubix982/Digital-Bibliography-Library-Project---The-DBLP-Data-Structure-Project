@@ -1,3 +1,6 @@
+#ifndef KMP_H
+#define KMP_H
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -90,3 +93,5 @@ int KMP(int lps[],string pattern,string txt) {
 
 	return index - 1;
 }
+
+#endif

@@ -1,6 +1,6 @@
 CPRDIR=../packages/cpr_x64-linux/cpr/
 CURLDIR=../packages/curl_x64-linux/include/curl/*.h
-CFLAGS=-I$(CPRDIR) -I$(CURLDIR) -I./container/*.h -lcurl -I/usr/include/python2.7 -lpython2.7 -std=c++1z
+CFLAGS=-I$(CPRDIR) -I$(CURLDIR) -I./container/*.h -lcurl -I/usr/include/python2.7 -Wno-deprecated-register -lpython2.7 -std=c++17 -Wno-register
 CC=g++
 
 _LOCALDEP=./container/*.h 
