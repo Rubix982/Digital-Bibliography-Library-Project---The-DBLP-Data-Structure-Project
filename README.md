@@ -41,3 +41,7 @@ Group members include:
 ## 21st December, 2019 5:13
     - Changelog
         > Finished a module in menuFunctions.h
+
+## 21st December, 2019 10:08
+    - Changelog
+        > Finished option 2 in menuFunctions.h
