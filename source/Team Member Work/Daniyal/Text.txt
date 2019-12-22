@@ -1,0 +1,25 @@
+GTA V or any other game doesn't use any programming language directly as such for the development.
+
+They use Game engines ( made using programming languages like C / C++ and Java) such as CryEngine, Unreal engine, Unity, custome game engines to make the games. 
+What they offer is that you work solely on designing the game, models and everything and it gets the backend ready.
+
+as have mentioned GTA V specially, so I can tell one specific software that they have used for developing 
+that big open world so seamlessly - the software is
+Your transaction is successful ON 01-Dec-2019
+Transactional details are given below:
+TIME: 23:15:06,
+TRANSACTION Id: 5400533950,
+TRANSACTION through: Mobile Bundles,
+Receiver Mobile: 03158148521,
+Account NO: 03158148521,
+Amount: 165.0,
+Fee (Exclusive of tax): 0.00,
+Total Amount: 165.0
+________________________________
+Disclaimer:
+This message contains confidential and proprietary information and is intended for the individual addressed only. 
+If are not the intended recipient, you must not disseminate, distribute, or copy whole or any part or attachment of this e-mail. 
+Please notify the sender immediately by e-mail and permanently delete this e-mail from your system and mailbox. 
+E-mail transmission can be intercepted, corrupted, lost, destroyed, arrive late or incomplete and may contain viruses. 
+The sender does not accept liability for any error or omission in the content of this message which may arise as a result of the transmission, 
+incase verification is required please request a hard-copy version.

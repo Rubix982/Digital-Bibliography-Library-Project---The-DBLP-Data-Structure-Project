@@ -36,12 +36,22 @@ Group members include:
         > Fixed build issues
         > Added '-Wno-register' to silence over register, from Python2_7.lib
         > Organized '/misc/allHeaders.cpp'
-        > New buidl, V4
+        > New build, V4
 
 ## 21st December, 2019 5:13
     - Changelog
         > Finished a module in menuFunctions.h
+        > New build, V5
 
 ## 21st December, 2019 10:08
     - Changelog
         > Finished option 2 in menuFunctions.h
+        > New build, V6
+
+## 22nd December, 10:24 AM
+    - Changelog
+        > Finished adding work by Daniyal Abdul Bari
+        > Integerated the algorithms and the Data Structures
+        > Modified the project's makefile
+        > Modified some of the file handle
+        > New build, V7

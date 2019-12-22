@@ -3,5 +3,6 @@
 
 #include "kmp.h"
 #include "RabinKarp.h"
+#include "BagofWord.h"
 
 #endif

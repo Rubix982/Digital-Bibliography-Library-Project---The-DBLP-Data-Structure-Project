@@ -4,5 +4,6 @@
 #pragma once
 
 #include "Trie.h"
+#include "CLL.h"
 
 #endif

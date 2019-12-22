@@ -573,11 +573,10 @@ void selectOption(unsigned & option) {
         
         }
 
-        /*
-            Getting back a thesis, make two files for it. One would contain
-            the raw text, the other will contain a processed version of that 
-            which will contain only the relevant data.
-        */
+        
+        //  TODO: Getting back a thesis, make two files for it. One would contain
+        //  TODO: the raw text, the other will contain a processed version of that 
+        //  TODO: which will contain only the relevant data.
 
     } if ( option == 3 ) {                          // End option == 2, 
 
