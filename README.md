@@ -65,3 +65,10 @@ Group members include:
     - Changelog
         > Added files by Vikash Kumar
         > New Build, V9
+
+## 22nd December, 4:05 PM
+    - Changelog
+        > Modified BagOfWords.h, adding error logging and returning from tuple
+        > Made a .cpp file for every .h file in ./algorithms
+        > Partially completed option 4, 6 to menuFunctions.h
+        > New Build, V10

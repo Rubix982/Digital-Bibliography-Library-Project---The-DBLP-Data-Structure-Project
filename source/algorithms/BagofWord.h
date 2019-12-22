@@ -2,16 +2,18 @@
 #ifndef BAG_OF_WORDS
 #define BAG_OF_WORDS
 
-#include <bits/stdc++.h>
-using namespace std;
+#include "algorithmFileHandle.h"
 
-void txt_from_fil();
-int data_1();
-bool checker(string st);
-bool com_count_checker(string s1);
+void textFromFile(string & fileName);
+size_t dataSize(std::string & fileName);
+bool checker(string str);
+bool commonCountChecker(string str);
 void count(void);
-int find_max();
+int findMax();
 void print_all(void);
-void BagOfWords(void);				// * Main function
+
+// * Main function
+std::tuple<string, int, int, vector<string>, vector<string> >   
+    BagOfWords(const string & fileName_1, const string & fileName_2);				
 
 #endif
