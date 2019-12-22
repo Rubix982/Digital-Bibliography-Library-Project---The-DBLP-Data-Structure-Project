@@ -580,22 +580,144 @@ void selectOption(unsigned & option) {
 
     } if ( option == 3 ) {                          // End option == 2, 
 
-        /*
+        // ? OPTION 3, Search for the author/venue/publ 
+        // ? is in local database
 
-        Ask the user what kind of data they want to preview. For that, if the 
-        user chooses to look at the publications, show them the content from 
-        publications, and output the contents locally.
+        // Clear the terminal
 
-        Here, if the user asks for a match with, or wants to look up, say,
-        a publication, apply a searching alogrithm for strings.
+        startAgain:
 
-        First take all the names as input, and search through that
+        cout << "\033[2J\033[1;1H";
 
-        */
+        std::cout   << "Please choose one of the below options.\n";
+        std::cout   << "1): For publications\n"
+                    << "2): For venues\n"
+                    << "3): For authors\n";
 
-        // String Searching Algorithm
+        ull option_choice;
+        cin >> option_choice;
 
-        // Bag Of Words
+        if ( option_choice == 1 ) {                 // ? Search throughout the publications dir
+
+            auto[fileNames, folderNames] = list_dir("/database/PublicationsList/");
+
+            ull i = 1;
+            for ( const auto & fileName : fileNames ) {
+                std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
+                ++i;
+            } 
+
+            string buffer;
+
+            // Label for rentering the data
+            getFileNameAgainForPublications:
+
+            std::cout << "\nEnter the filename ( without the extension ) to output the contents for: ";
+            cin >> buffer;
+
+            bool flag = false;
+            for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
+
+            if ( flag ) {
+
+                std::ifstream getFileContents("/database/PublicationsList/" + buffer + ".csv");
+                std::string bufferForFileContents;
+
+                while ( std::getline(getFileContents, bufferForFileContents) ) 
+                    std::cout << bufferForFileContents << "\n";
+
+                getFileContents.close();
+
+            } else {
+
+                std::cout << "file name entered did not match any results. Please enter again.\n";
+                goto getFileNameAgainForPublications;
+
+            }
+
+        } else if ( option_choice == 2 ) {          // ? Search throughout the venue dir
+
+            auto[fileNames, folderNames] = list_dir("/database/VenueList/");
+
+            ull i = 1;
+            for ( const auto & fileName : fileNames ) {
+                std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
+                ++i;
+            } 
+
+            string buffer;
+
+            // Label for rentering the data
+            getFileNameAgainForVenue:
+
+            std::cout << "\nEnter the filename ( without the extension ) to output the contents for: ";
+            cin >> buffer;
+
+            bool flag = false;
+            for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
+    
+            if ( flag ) {
+
+                std::ifstream getFileContents("/database/VenueList/" + buffer + ".csv");
+                std::string bufferForFileContents;
+
+                while ( std::getline(getFileContents, bufferForFileContents) ) 
+                    std::cout << bufferForFileContents << "\n";
+
+                getFileContents.close();
+
+            } else {
+
+                std::cout << "file name entered did not match any results. Please enter again.\n";
+                goto getFileNameAgainForVenue;
+
+            }
+
+
+        } else if ( option_choice == 3 ) {          // ? Search through the author dir
+
+            auto[fileNames, folderNames] = list_dir("/database/Authors/");
+
+            ull i = 1;
+            for ( const auto & fileName : fileNames ) {
+                std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
+                ++i;
+            } 
+
+            string buffer;
+
+            // Label for rentering the data
+            getFileNameAgainForAuthor:
+
+            std::cout << "\nEnter the filename ( without the extension ) to output the contents for: ";
+            cin >> buffer;
+
+            bool flag = false;
+            for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
+    
+            if ( flag ) {
+
+                std::ifstream getFileContents("/database/Authors/" + buffer + ".csv");
+                std::string bufferForFileContents;
+
+                while ( std::getline(getFileContents, bufferForFileContents) ) 
+                    std::cout << bufferForFileContents << "\n";
+
+                getFileContents.close();
+
+            } else {
+
+                std::cout << "file name entered did not match any results. Please enter again.\n";
+                goto getFileNameAgainForAuthor;
+
+            }
+
+        } else {
+
+            std::cout << "Option not recognized, please try again!\n";
+            goto startAgain;
+
+        }
     
     } else if ( option == 4 ) {        
 
