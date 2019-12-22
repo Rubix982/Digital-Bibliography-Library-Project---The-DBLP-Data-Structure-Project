@@ -55,3 +55,13 @@ Group members include:
         > Modified the project's makefile
         > Modified some of the file handle
         > New build, V7
+
+## 22nd December, 2:14 PM
+    - Changelog
+        > Added option 3 to menuFunctions.h
+        > New build, V8
+
+## 22nd December, 2:16 PM
+    - Changelog
+        > Added files by Vikash Kumar
+        > New Build, V9
