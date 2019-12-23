@@ -820,9 +820,6 @@ void selectOption(unsigned & option) {
 
             }
 
-            getBackFileNameFor
-
-
         } else if ( option_choice == 3 ) {          // ? Search through the author dir
 
             auto[fileNames, folderNames] = list_dir("/database/Authors/");
