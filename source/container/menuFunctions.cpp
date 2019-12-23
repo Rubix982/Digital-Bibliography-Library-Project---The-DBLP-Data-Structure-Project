@@ -467,7 +467,7 @@ void selectOption(unsigned & option) {
                     
                     // convert string to upper case
                     std::for_each(toCheck.begin(), toCheck.end(), [](char & c){
-	                    c = ::toupper(c);
+                        c = ::toupper(c);
                     });
 
                     if ( toCheck == "Y" || toCheck == "YES" ) {
@@ -578,7 +578,11 @@ void selectOption(unsigned & option) {
         //  TODO: the raw text, the other will contain a processed version of that 
         //  TODO: which will contain only the relevant data.
 
-    } if ( option == 3 ) {                          // End option == 2, 
+            // * --------------------------------------------- OPTION 3 ENDS HERE ---------------------------------------------------------------
+
+            // * --------------------------------------------- OPTION 4 STARTS HERE -------------------------------------------------------------
+
+    } else if ( option == 3 ) {                          // End option == 2, 
 
         // ? OPTION 3, Search for the author/venue/publ 
         // ? is in local database
@@ -727,175 +731,160 @@ void selectOption(unsigned & option) {
         // TODO: To perform the below operations, use the Bag Of Words 
         // TODO: to extract and measure the frequency of each word
 
-        // std::cout   << "Please choose one of the below options.\n";
-        // std::cout   << "1): For publications\n"
-        //             << "2): For venues\n"
-        //             << "3): For authors\n";
+        std::cout   << "Please choose one of the below options.\n";
+        std::cout   << "1): For publications\n"
+                    << "2): For venues\n"
+                    << "3): For authors\n";
 
-        // ull option_choice;
-        // cin >> option_choice;
+        ull option_choice;
+        string filename_1, filename_2;
+        cin >> option_choice;
 
-        // if ( option_choice == 1 ) {                 // ? Search throughout the publications dir
+        if ( option_choice == 1 ) {                 // ? Search throughout the publications dir
 
-        //     auto[fileNames, folderNames] = list_dir("/database/PublicationsList/");
+            auto[fileNames, folderNames] = list_dir("/database/PublicationsList/");
 
-        //     ull i = 1;
-        //     for ( const auto & fileName : fileNames ) {
-        //         std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
-        //         ++i;
-        //     } 
+            ull i = 1;
+            for ( const auto & fileName : fileNames ) {
+                std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
+                ++i;
+            } 
 
-        //     string buffer;
+            string buffer;
 
-        //     // Label for rentering the data
-        //     getFileNameAgainForPublications:
+            // Label for rentering the data
+            getBackFileNameForPublicationComparision:
 
-        //     std::cout << "\nEnter the filename ( without the extension ) to output the contents for: ";
-        //     cin >> buffer;
+            std::cout << "\nEnter the filename for the first file ( without the extension ) to check for the comparision: ";
+            cin >> buffer;
 
-        //     bool flag = false;
-        //     for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
+            bool flag = false;
+            for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
 
-        //     if ( flag ) {
+            if ( flag ) {
+                filename_1 = "/database/PublicationsList/" + buffer + ".csv";
+            } else {
 
-        //         std::ifstream getFileContents("/database/PublicationsList/" + buffer + ".csv");
-        //         std::string bufferForFileContents;
+                std::cout << "file name entered did not match any results. Please enter again.\n";
+                goto getBackFileNameForPublicationComparision;
 
-        //         while ( std::getline(getFileContents, bufferForFileContents) ) 
-        //             std::cout << bufferForFileContents << "\n";
+            }
 
-        //         getFileContents.close();
+            getBackFileNameForPublicationComparision_Two:
 
-        //     } else {
+            std::cout << "\nEnter the filename for the second file ( without the extension ) to check for the comparision: ";
 
-        //         std::cout << "file name entered did not match any results. Please enter again.\n";
-        //         goto getFileNameAgainForPublications;
+            cin >> buffer;
 
-        //     }
+            bool flag = false;
+            for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
 
-        // } else if ( option_choice == 2 ) {          // ? Search throughout the venue dir
+            if ( flag ) {
+                filename_1 = "/database/PublicationsList/" + buffer + ".csv";
+            } else {
 
-        //     auto[fileNames, folderNames] = list_dir("/database/VenueList/");
+                std::cout << "file name entered did not match any results. Please enter again.\n";
+                goto getBackFileNameForPublicationComparision_Two;
 
-        //     ull i = 1;
-        //     for ( const auto & fileName : fileNames ) {
-        //         std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
-        //         ++i;
-        //     } 
+            }
 
-        //     string buffer;
+        } else if ( option_choice == 2 ) {          // ? Search throughout the venue dir
 
-        //     // Label for rentering the data
-        //     getFileNameAgainForVenue:
+            auto[fileNames, folderNames] = list_dir("/database/VenueList/");
 
-        //     std::cout << "\nEnter the filename ( without the extension ) to output the contents for: ";
-        //     cin >> buffer;
+            ull i = 1;
+            for ( const auto & fileName : fileNames ) {
+                std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
+                ++i;
+            } 
 
-        //     bool flag = false;
-        //     for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
+            string buffer;
+
+            // Label for rentering the data
+            getBackFileNameForVenueComparision:
+
+            std::cout << "\nEnter the filename for the first file ( without the extension ) to check for the comparision: ";
+            cin >> buffer;
+
+            bool flag = false;
+            for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
     
-        //     if ( flag ) {
+            if ( flag ) {
 
-        //         std::ifstream getFileContents("/database/VenueList/" + buffer + ".csv");
-        //         std::string bufferForFileContents;
+                filename_1 = ("/database/VenueList/" + buffer + ".csv");
 
-        //         while ( std::getline(getFileContents, bufferForFileContents) ) 
-        //             std::cout << bufferForFileContents << "\n";
+            } else {
 
-        //         getFileContents.close();
+                std::cout << "file name entered did not match any results. Please enter again.\n";
+                goto getBackFileNameForVenueComparision;
 
-        //     } else {
+            }
 
-        //         std::cout << "file name entered did not match any results. Please enter again.\n";
-        //         goto getFileNameAgainForVenue;
-
-        //     }
+            getBackFileNameFor
 
 
-        // } else if ( option_choice == 3 ) {          // ? Search through the author dir
+        } else if ( option_choice == 3 ) {          // ? Search through the author dir
 
-        //     auto[fileNames, folderNames] = list_dir("/database/Authors/");
+            auto[fileNames, folderNames] = list_dir("/database/Authors/");
 
-        //     ull i = 1;
-        //     for ( const auto & fileName : fileNames ) {
-        //         std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
-        //         ++i;
-        //     } 
+            ull i = 1;
+            for ( const auto & fileName : fileNames ) {
+                std::cout << i << "): \"" << fileName + ".csv" << "\"\n";
+                ++i;
+            } 
 
-        //     string buffer;
+            string buffer;
 
-        //     // Label for rentering the data
-        //     getFileNameAgainForAuthor:
+            // Label for rentering the data
+            getComparisionForAuthor:
 
-        //     std::cout << "\nEnter the filename ( without the extension ) to output the contents for: ";
-        //     cin >> buffer;
+            std::cout << "\nEnter the filename for the first file ( without the extension ) to output the contents for: ";
+            cin >> buffer;
 
-        //     bool flag = false;
-        //     for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
+            bool flag = false;
+            for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
     
-        //     if ( flag ) {
+            if ( flag ) {
 
-        //         std::ifstream getFileContents("/database/Authors/" + buffer + ".csv");
-        //         std::string bufferForFileContents;
+                std::ifstream getFileContents("/database/Authors/" + buffer + ".csv");
 
-        //         while ( std::getline(getFileContents, bufferForFileContents) ) 
-        //             std::cout << bufferForFileContents << "\n";
+            } else {
 
-        //         getFileContents.close();
+                std::cout << "file name entered did not match any results. Please enter again.\n";
+                goto getComparisionForAuthor;
 
-        //     } else {
+            }
 
-        //         std::cout << "file name entered did not match any results. Please enter again.\n";
-        //         goto getFileNameAgainForAuthor;
 
-        //     }
 
-        // } else {
+        } else {
 
-        //     std::cout << "Option not recognized, please try again!\n";
-        //     goto startAgain;
+            std::cout << "Option not recognized, please try again!\n";
+            goto startAgain;
 
-        // }
-
-        string fileName_1, fileName_2;
-        std::cout << "Enter the two files whose highest trends you wish to find.\n";
-        std::cout << "1st Filename: ";
-        std::cin >> fileName_1;
-        std::cout << "2nd Filename: ";
-        std::cin >> fileName_2;
+        }
 
         auto[mostFrequentWord, maxFreq, atIndex, commonVector, textVector ] 
-                = BagOfWords(fileName_1, fileName_2);
+                = BagOfWords(filename_1, filename_2);
 
         std::cout << "The most frequent word in both the texts\""
-            << fileName_1 << "\" and \"" << fileName_2 << "\" is \"" << mostFrequentWord
+            << filename_1 << "\" and \"" << filename_2 << "\" is \"" << mostFrequentWord
             << "\" with frequency " << maxFreq << " at position " << atIndex ;
 
         vector<string> commonWords;
 
-        for ( int i = 0; i < textVector.size() ; ++i ) {
-
-            for ( int j = 0 ; j < commonVector.size() ; ++j ) {
+        for ( int i = 0; i < textVector.size() ; ++i ) 
+            for ( int j = 0 ; j < commonVector.size() ; ++j ) 
                 if ( textVector[i] == commonVector[j] and 
                     ( commonWords.end() == std::find(commonWords.begin(), commonWords.end(), textVector[i]) ) ) {
                     commonWords.push_back(textVector[i]);
                     break;
                 }
-            }
-        }
-
+                    
         std::cout << "A list of all the common words between the two texts is given by: \n";
-
-        for ( ull i = 0, j = 0; i < commonWords.size() ; ++i, ++j ) {
-            
-            if ( ( j + 1 ) % 5 == 0 ) {
-                std::cout << commonWords[i] << "\n";
-            } else {
-                std::cout << commonWords[i] << ", ";
-            }
-        }
-
-
+        for ( ull i = 0, j = 0; i < commonWords.size() ; ++i, ++j ) 
+            if ( ( j + 1 ) % 5 == 0 ) std::cout << commonWords[i] << "\n";
+            else std::cout << commonWords[i] << ", ";
 
         /*
 

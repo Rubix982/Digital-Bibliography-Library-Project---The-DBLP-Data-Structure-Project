@@ -4,12 +4,6 @@
 #include "allHeadersForContainer.hpp"
 using namespace std;
 
-/*
-
-
-
-*/
-
 void displayOption(void);
 std::tuple<std::vector<string>, std::vector<string>> list_dir(std::string path);
 void selectOption(unsigned & option);
