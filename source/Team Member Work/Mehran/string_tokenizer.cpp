@@ -15,6 +15,7 @@ public:
             delim_ = delim;
 
       // Point to the first token
+
         begin_ = str_.find_first_not_of(delim_);
         end_ = str_.find_first_of(delim_, begin_);
    }

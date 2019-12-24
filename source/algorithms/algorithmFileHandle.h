@@ -1,11 +1,10 @@
 #ifndef ALGORITHM_FILE_HANDLE
 #define ALGORITHM_FILE_HANDLE
 
-#include <bits/stdc++.h>
-using namespace std;
+// List of all the files offered by this folder, './algorithms/'
 
 #include "kmp.h"
 #include "RabinKarp.h"
-#include "BagofWord.h"
+#include "BagofWords.h"
 
 #endif

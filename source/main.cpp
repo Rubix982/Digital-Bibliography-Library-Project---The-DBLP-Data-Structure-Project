@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
 
         displayOption();
 
+        std::cout << "Please choose an option: ";
         std::cin >> option;
 
         if ( option != 8 ) selectOption(option);

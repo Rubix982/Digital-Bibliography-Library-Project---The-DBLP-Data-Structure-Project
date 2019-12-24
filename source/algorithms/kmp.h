@@ -1,7 +1,8 @@
 #ifndef KMP_H
 #define KMP_H
 
-#include "algorithmFileHandle.h"
+#include "allHeadersForAlgorithms.h"
+using namespace std;
 
 void create_lps_table(string pattern, int arr[]);
 int KMP(int ips[], string pattern, string txt);

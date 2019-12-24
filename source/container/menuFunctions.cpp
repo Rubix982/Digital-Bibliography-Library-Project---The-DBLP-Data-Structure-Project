@@ -3,6 +3,8 @@ using namespace std;
 typedef unsigned long long ull;
 
 void displayOption(void) {
+
+    std::cout << "\n";
     std::cout << "1): Look at already present data\n";                          // Show friendly view of already present local database
 
     std::cout << "2): Request data from server\n";                              // Find relevant authors and publications by requesting data from the server
@@ -21,6 +23,9 @@ void displayOption(void) {
     std::cout << "7): Find if two authors are related to each other.\n";         // Make a graph of authors, see if any two others are related to each other
 
     std::cout << "8): Exit\n";                                                  // Exit the menu
+
+    cout << "\033[2J\033[1;1H";
+    
 }
 
 std::tuple<std::vector<string>, std::vector<string>> list_dir(std::string path) {
@@ -776,7 +781,7 @@ void selectOption(unsigned & option) {
 
             cin >> buffer;
 
-            bool flag = false;
+            flag = false;
             for ( const auto & fileName : fileNames ) if ( fileName == buffer ) { flag = true; break; }
 
             if ( flag ) {
@@ -886,7 +891,7 @@ void selectOption(unsigned & option) {
         /*
 
         Ask the user for the name of the publication, or the thesis that
-        they want to the program to process, 
+        they want to the program to process,
 
         Here, the user can decide and comapre among any number of thesis,
         and find out what the most common trends are.
@@ -930,6 +935,8 @@ void selectOption(unsigned & option) {
             // Start the timer for KMP
             clock_t tStart = clock();
 
+            // rabinKarp()            
+            
             // end the timer for KMP
             std::this_thread::sleep_for(std::chrono::nanoseconds(100));
             clock_t tEnd_KMP = (double) ( (clock() - tStart) / CLOCKS_PER_SEC ) ;

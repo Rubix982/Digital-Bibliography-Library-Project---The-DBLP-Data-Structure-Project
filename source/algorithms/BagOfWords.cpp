@@ -1,5 +1,5 @@
 //Natural Language Processing (NLP)
-#include "BagofWord.h"
+#include "BagofWords.h"
 
 vector<int> word_freq;
 vector<string> common, text;
@@ -105,6 +105,7 @@ int findMax(void) {
 			index = i;
 			max = word_freq[i];
 		}
+	}
 
 	return index;
 }
@@ -117,7 +118,7 @@ void print_all(void) {
 }
 
 std::tuple<string, int, int, vector<string>, vector<string> >  
-BagOfWords(const string & fileName_1, const string & fileName_2) {
+BagOfWords(string & fileName_1, string & fileName_2) {
 	
 	common_count = dataSize(fileName_2);
 		textFromFile(fileName_1);

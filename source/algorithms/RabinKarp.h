@@ -1,7 +1,8 @@
 #ifndef RABIN_KARP
 #define RABIN_KARP
 
-#include "algorithmFileHandle.h"
+#include "allHeadersForAlgorithms.h"
+using namespace std;
 
 int rabinKarp(const char *a,string pat);
 

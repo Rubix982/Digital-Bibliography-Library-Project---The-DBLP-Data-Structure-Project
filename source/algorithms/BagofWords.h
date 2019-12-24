@@ -2,7 +2,10 @@
 #ifndef BAG_OF_WORDS
 #define BAG_OF_WORDS
 
-#include "algorithmFileHandle.h"
+#include "allHeadersForAlgorithms.h"
+using namespace std;
+
+// namespace BAGOFWORDS {
 
 void textFromFile(string & fileName);
 size_t dataSize(std::string & fileName);
@@ -14,6 +17,6 @@ void print_all(void);
 
 // * Main function
 std::tuple<string, int, int, vector<string>, vector<string> >   
-    BagOfWords(const string & fileName_1, const string & fileName_2);				
+	BagOfWords(string & fileName_1, string & fileName_2);				
 
 #endif
