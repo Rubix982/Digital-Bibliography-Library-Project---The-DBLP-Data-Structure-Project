@@ -72,3 +72,12 @@ Group members include:
         > Made a .cpp file for every .h file in ./algorithms
         > Partially completed option 4, 6 to menuFunctions.h
         > New Build, V10
+
+## 24th December, 8:36 AM
+    - Changelog
+        > Introduced a file handler in every working folder that consists of a .h and .cpp file
+        > Introduced webscrapper library to get back the PDF file and put the sample text into a text file
+
+## 24th December, 8:48 AM
+    - Changelog
+        > Added KMP and RabinKarp functionality

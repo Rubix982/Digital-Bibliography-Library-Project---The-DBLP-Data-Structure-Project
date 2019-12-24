@@ -931,12 +931,21 @@ void selectOption(unsigned & option) {
         if ( it != fileNames.end() ) {
             std::cout << "File \"" << thesisName << "\" found. Enter the phrase to search for: ";
             std::cin >> patternToSearch;
+
+            string allContentsFromThesis = "", buffer = "";
+
+            std::ifstream InFile("database/Thesis/" + thesisName);
+            while ( std::getline(InFile, buffer) ) allContentsFromThesis += buffer;
             
+            InFile.close();
+
             // Start the timer for KMP
             clock_t tStart = clock();
 
-            // rabinKarp()            
-            
+            int arr[patternToSearch.size()]{0};
+
+            KMP(arr, patternToSearch, allContentsFromThesis);
+
             // end the timer for KMP
             std::this_thread::sleep_for(std::chrono::nanoseconds(100));
             clock_t tEnd_KMP = (double) ( (clock() - tStart) / CLOCKS_PER_SEC ) ;
@@ -944,6 +953,8 @@ void selectOption(unsigned & option) {
                 
             // Start the timer for Rabin Karp
             tStart = clock();
+
+            rabinKarp(patternToSearch.c_str(), allContentsFromThesis);
 
             // end the timer for Rabin Karp
             std::this_thread::sleep_for(std::chrono::nanoseconds(100));
